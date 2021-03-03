@@ -1,0 +1,110 @@
+<style>
+.todoList__itm { display: flex; align-items: center; height: 30px; }
+.todoList__txt { width: 150px; }
+.todoList__done { color:#fff; background-color: rgb(53, 64, 216); margin-right: 10px; border: none; cursor: pointer; }
+.todoList__delete { color:#fff; background-color: rgb(207, 52, 52); border: none; cursor: pointer; }
+.done { color: grey; text-decoration: line-through; }
+</style>
+
+<html>
+<body>
+    <input type="text" value="" id="todoInput" placeholder="todoを入力">
+    <button id="todoCreate">新規作成</button>
+    <ul id="todoList">
+        <li class="todoList__itm">
+            <p class="todoList__txt">サンプルtodo</p>
+            <button class="todoList__done">完了</button>
+            <button class="todoList__delete">削除</button>
+        </li>
+    </ul>
+
+</body>
+</html>
+
+<script>
+/* function
+*****************************************************************/
+ let createFun = (e)=> {
+     if (e) 
+     {
+        let itm_e = document.createElement('li');
+        itm_e.classList.add('todoList__itm');
+
+        let txt_e = document.createElement('p');
+        txt_e.classList.add('todoList__txt');
+        txt_e.textContent = e;
+
+        let done_e = document.createElement('button');
+        done_e.classList.add('todoList__done');
+        done_e.innerText = '完了';
+        doneFun(done_e);
+
+        let delete_e = document.createElement('button');
+        delete_e.classList.add('todoList__delete');
+        delete_e.innerText = '削除';
+        deleteFun(delete_e);
+
+        let into_txt__es = [txt_e, done_e, delete_e];
+        for (let e of into_txt__es) { itm_e.appendChild(e); }
+
+        let todoList = document.getElementById('todoList');
+        todoList.appendChild(itm_e);
+     }
+     else
+     {
+         return false;
+     }
+ }
+
+
+ let doneFun = (e)=> {
+     e.addEventListener('click', () =>
+     {
+         let txt_e = e.previousElementSibling;
+         if (txt_e.classList.contains('done') == true)
+         {
+             console.log('done済み');
+         }
+         else
+         {
+             txt_e.classList.add('done');
+             console.log(txt_e);
+         }
+     })
+ }
+
+
+let deleteFun = (e) =>
+{
+    e.addEventListener('click', () =>
+    {
+        let itm_e = e.parentNode;
+        itm_e.remove();
+    })
+}
+
+/* event
+*****************************************************************/
+let createBtn = document.getElementById('todoCreate');
+createBtn.addEventListener('click', () =>
+{
+    let inputTxt = document.getElementById('todoInput').value;
+    createFun(inputTxt);
+});
+
+
+let doneBtns = document.querySelectorAll('.todoList__done');
+doneBtns.forEach((doneBtn) =>
+{
+    doneFun(doneBtn);
+})
+
+
+let deleteBtns = document.querySelectorAll('.todoList__delete');
+deleteBtns.forEach((deleteBtn) =>
+{
+    deleteFun(deleteBtn);
+})
+</script>
+
+
